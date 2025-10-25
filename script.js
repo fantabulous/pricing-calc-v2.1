@@ -371,7 +371,7 @@ function calcPrice() {
 
 function getCurrConv(beforeVal) {
   const afterVal = (regionSelect.value === "india") ? beforeVal * 88 : beforeVal;
-  return (regionSelect.value === "india") ? "₹"+afterVal : "$"+afterVal;
+  return (regionSelect.value === "india") ? "₹"+afterVal.toLocaleString('en-IN') : "$"+afterVal.toLocaleString('en-US');
 }
 
 // --- STARTUP ---
