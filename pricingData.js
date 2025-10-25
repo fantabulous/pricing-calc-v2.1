@@ -3,6 +3,10 @@ const pricingData = {
     "rateIndia": 109,
     "rateOutside": 174
   },
+  "regionDiscount": {
+    "discountIndia": 60,
+    "discountOutside": 0
+  },
   "baseLicense": {
     "developerBased": {
       "Enterprise": { "Self Host": 15000, "Cloud": 0 },
@@ -139,4 +143,3 @@ const pricingData = {
     { "model": "Usage Based", "deployment": "Cloud", "addonName": "MCP", "tier": "Activation", "price": 600, "controlType": "select" }
   ]
 };
-
