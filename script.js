@@ -338,8 +338,11 @@ function calcPrice() {
   
   const dailyRate = (regionSelect.value === "india") ? pricingData.professionalServices.rateIndia : pricingData.professionalServices.rateOutside;
   const psCost = dailyRate * (parseInt(psManDaysInp.value) || 0);
-
+  baseDiscountInp.value = (regionSelect.value === "india") ? pricingData.regionDiscount.discountIndia : pricingData.regionDiscount.discountOutside;
+  licDiscountInp.value = (regionSelect.value === "india") ? pricingData.regionDiscount.discountIndia : pricingData.regionDiscount.discountOutside;
+  addonsDiscountInp.value = (regionSelect.value === "india") ? pricingData.regionDiscount.discountIndia : pricingData.regionDiscount.discountOutside;
   // Apply discounts
+  
   const baseLicenseAfter = baseLicenseVal * (1 - (parseFloat(baseDiscountInp.value) || 0) / 100);
   const licensingAfter = licensingCost * (1 - (parseFloat(licDiscountInp.value) || 0) / 100);
   const addonsAfter = addOnsCost * (1 - (parseFloat(addonsDiscountInp.value) || 0) / 100);
@@ -352,18 +355,23 @@ function calcPrice() {
   // --- RENDER OUTPUT ---
   priceOutput.innerHTML = `
     <h3>License Summary</h3>
-    <div>Base License: \$${baseLicenseAfter.toFixed(2)} <em>(Original: \$${baseLicenseVal.toFixed(2)})</em></div>
-    <div>Licensing: \$${licensingAfter.toFixed(2)} <em>(Original: \$${licensingCost.toFixed(2)})</em></div>
-    <div>Add-ons: \$${addonsAfter.toFixed(2)} <em>(Original: \$${addOnsCost.toFixed(2)})</em></div>
-    <strong>License Subtotal: \$${licenseSubtotal.toFixed(2)}</strong>
+    <div>Base License: \ ${getCurrConv(baseLicenseAfter.toFixed(2))}<em>(Original: \ ${getCurrConv(baseLicenseVal.toFixed(2))})</em></div>
+    <div>Licensing: \ ${getCurrConv(licensingAfter.toFixed(2))}<em>(Original: \ ${getCurrConv(licensingCost.toFixed(2))})</em></div>
+    <div>Add-ons: \ ${getCurrConv(addonsAfter.toFixed(2))} <em>(Original: \ ${getCurrConv(addOnsCost.toFixed(2))})</em></div>
+    <strong>License Subtotal: \ ${getCurrConv(licenseSubtotal.toFixed(2))}</strong>
     <hr/>
     <h3>One-off</h3>
-    <div>Professional Services: \$${psAfter.toFixed(2)} <em>(Original: \$${psCost.toFixed(2)})</em></div>
-    <strong>One-off Subtotal: \$${oneOffSubtotal.toFixed(2)}</strong>
+    <div>Professional Services: \ ${getCurrConv(psAfter.toFixed(2))} <em>(Original: \ ${getCurrConv(psCost.toFixed(2))})</em></div>
+    <strong>One-off Subtotal: \ ${getCurrConv(oneOffSubtotal.toFixed(2))}</strong>
     <hr/>
     <h3>Total</h3>
-    <strong>\$${total.toFixed(2)}</strong>
+    <strong>\ ${getCurrConv(total.toFixed(2))}</strong>
   `;
+}
+
+function getCurrConv(beforeVal) {
+  const afterVal = (regionSelect.value === "india") ? beforeVal * 88 : beforeVal;
+  return (regionSelect.value === "india") ? "₹"+afterVal : "$"+afterVal;
 }
 
 // --- STARTUP ---
